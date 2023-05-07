@@ -86,16 +86,14 @@ ffi_call_unix64:
 	jnz	.Lload_sse
 .Lret_from_load_sse:
 
-    .align 32
 	/* Deallocate the reg arg area.  */
- 		leal	176(%r10), %esp
- 		addq	%r15, %rsp
+	naclspadj $176, %r15
 
 	/* Call the user function.  */
  	naclcall	%r11d, %r15
 
 	/* Deallocate stack arg area; local stack frame in redzone.  */
-    naclspadj $24, %r15
+	naclspadj $24, %r15
 
 	movq	0(%rbp), %rcx		/* Reload flags.  */
 	movq	8(%rbp), %rdi		/* Reload raddr.  */
@@ -110,12 +108,12 @@ ffi_call_unix64:
  	addl	%r11d, %r10d
  	nacljmp	%r10d, %r15
 
-    .align 32
+	.align 32
 .Lst_void:
 	pop %r11
-    nacljmp %r11d, %r15
-	.align 32
+	nacljmp %r11d, %r15
 
+	.align 32
 .Lst_uint8:
 	movzbq	%al, %rax
  	movq	%rax, %nacl:0(%r15, %rdi)
