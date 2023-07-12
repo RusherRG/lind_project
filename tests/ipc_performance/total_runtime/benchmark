@@ -11,4 +11,3 @@ echo -e "\nRunning on native linux"
 
 echo -e "\nRunning in userspace"
 ./run_userps2 $1
-
